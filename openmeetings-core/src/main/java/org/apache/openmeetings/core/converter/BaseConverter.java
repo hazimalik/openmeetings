@@ -184,7 +184,8 @@ public abstract class BaseConverter {
 		try {
 			long counter = 0;
 			long maxTimestamp = 0;
-			while (true) {
+			boolean streamStopped = false;
+			while (!streamStopped) {
 				chunk = chunkDao.get(chunkId);
 
 				if (chunk.getStreamStatus() == Status.STOPPED) {
