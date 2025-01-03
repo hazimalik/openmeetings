@@ -185,30 +185,27 @@ public abstract class BaseConverter {
 			long counter = 0;
 			long maxTimestamp = 0;
 			boolean streamStopped = false;
+	
 			while (!streamStopped) {
 				chunk = chunkDao.get(chunkId);
-
-				if (chunk.getStreamStatus() == Status.STOPPED) {
-					printChunkInfo(chunk, "Stream now written");
-					log.debug("### Chunk stopped, unblocking thread ... " );
-					break;
-				}
-				File chunkFlv = getRecordingChunk(chunk.getRecording().getRoomId(), chunk.getStreamName());
-				if (chunkFlv.exists() && maxTimestamp < chunkFlv.lastModified()) {
-					maxTimestamp = chunkFlv.lastModified();
-				}
-				if (maxTimestamp + TIME_TO_WAIT_FOR_FRAME < System.currentTimeMillis()) {
-					log.debug("### long time without any update, closing ... ");
+	
+				if (chunk.getStreamStatus() == Status.STOPPED ||
+					(getRecordingChunk(chunk.getRecording().getRoomId(), chunk.getStreamName()).exists() &&
+					maxTimestamp < getRecordingChunk(chunk.getRecording().getRoomId(), chunk.getStreamName()).lastModified() &&
+					maxTimestamp + TIME_TO_WAIT_FOR_FRAME < System.currentTimeMillis())) {
+					streamStopped = true;
 					chunk.setStreamStatus(Status.STOPPED);
 					chunkDao.update(chunk);
-					break;
+					printChunkInfo(chunk, "Stream now written or long time without update, closing ...");
+					log.debug("### Chunk stopped, unblocking thread ...");
+				} else {
+					if (++counter % 1000 == 0) {
+						printChunkInfo(chunk, "Still waiting");
+					}
+	
+					log.trace("### Stream not yet written Thread Sleep - {}", chunkId);
+					Thread.sleep(100L);
 				}
-				if (++counter % 1000 == 0) {
-					printChunkInfo(chunk, "Still waiting");
-				}
-
-				log.trace("### Stream not yet written Thread Sleep - {}", chunkId);
-				Thread.sleep(100L);
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
