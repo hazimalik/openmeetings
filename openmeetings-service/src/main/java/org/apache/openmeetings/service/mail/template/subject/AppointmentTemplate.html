@@ -19,19 +19,24 @@
 -->
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-9.xsd">
+<head>
+    <title>AppointmentTemplate</title>
+</head>
 <wicket:extend>
-	<span wicket:id="titleLbl"></span>&nbsp;<span wicket:id="title"></span>
-	<div wicket:id="descContainer">
-		<br/>
-		<span wicket:id="descLbl"></span><br/>
-		&nbsp;<span wicket:id="desc"></span>
-	</div>
-	<br/>
-	<span wicket:id="startLbl">:</span>&nbsp;<span wicket:id="start"></span><br/>
-	<span wicket:id="endLbl">:</span>&nbsp;<span wicket:id="end"></span><br/>
-	<wicket:child/>
+    <span wicket:id="titleLbl"></span>&nbsp;<span wicket:id="title"></span>
+    <div wicket:id="descContainer">
+        <br/>
+        <span wicket:id="descLbl"></span><br/>
+        &nbsp;<span wicket:id="desc"></span>
+    </div>
+    <br/>
+    <span wicket:id="startLbl">:</span>&nbsp;<span wicket:id="start"></span><br/>
+    <span wicket:id="endLbl">:</span>&nbsp;<span wicket:id="end"></span><br/>
+    <wicket:child/>
 
-	<wicket:fragment wicket:id="subject"><span wicket:id="prefix"></span> <span wicket:id="title"></span> <span
-		wicket:id="start"></span><span wicket:id="dash"></span><span wicket:id="end"></span></wicket:fragment>
+    <wicket:fragment wicket:id="subject">
+        <span wicket:id="prefix"></span> <span wicket:id="title"></span> <span wicket:id="start"></span>
+        <span wicket:id="dash"></span><span wicket:id="end"></span>
+    </wicket:fragment>
 </wicket:extend>
 </html>
