@@ -138,17 +138,35 @@ public interface DavConstants {
     /**
      * Marker for undefined modification or creation time.
      */
+    public class YourClass {
     public static long UNDEFINED_TIME = -1;
 
+    
     /**
      * modificationDate date format per RFC 1123.<br>
-     * NOTE: Access to <code>DateFormat</code> isn't thread save.
+     * NOTE: Access to <code>DateFormat</code> isn't thread safe.
      */
-    public static DateFormat modificationDateFormat = HttpDateFormat.modificationDateFormat();
+    private DateFormat modificationDateFormat;
 
     /**
      * Simple date format for the creation date ISO representation (partial).<br>
-     * NOTE: Access to <code>DateFormat</code> isn't thread save.
+     * NOTE: Access to <code>DateFormat</code> isn't thread safe.
      */
     public static DateFormat creationDateFormat = HttpDateFormat.creationDateFormat();
+
+    // Constructor to initialize the instance variable
+    public YourClass() {
+        this.modificationDateFormat = HttpDateFormat.modificationDateFormat();
+    }
+
+    // Getter for modificationDateFormat
+    public DateFormat getModificationDateFormat() {
+        return modificationDateFormat;
+    }
+
+    // Setter for modificationDateFormat if needed
+    public void setModificationDateFormat(DateFormat modificationDateFormat) {
+        this.modificationDateFormat = modificationDateFormat;
+    }
+}
 }
